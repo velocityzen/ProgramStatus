@@ -3,7 +3,7 @@ import PackageDescription
 
 let package = Package(
     name: "ProgramStatus",
-    platforms: [.macOS(.v26)],
+    platforms: [.macOS(.v26), .iOS(.v26), .tvOS(.v26), .watchOS(.v26), .visionOS(.v26)],
     products: [
         .library(name: "ProgramStatus", targets: ["ProgramStatus"]),
         .executable(name: "program-status", targets: ["program-status"]),

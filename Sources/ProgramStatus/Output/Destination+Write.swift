@@ -2,6 +2,16 @@ import FP
 import FPBracket
 import Foundation
 
+#if canImport(Darwin)
+    import Darwin
+#elseif canImport(Glibc)
+    import Glibc
+#elseif canImport(Musl)
+    import Musl
+#elseif canImport(Android)
+    import Android
+#endif
+
 extension Destination {
     /// Writes the sequence. Fails with ``ProgramStatusError/noTerminal`` when
     /// there is no terminal to write to — a log file or a pipe never gets
