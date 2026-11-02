@@ -12,16 +12,19 @@ public struct Capabilities: Sendable, Equatable {
         kinds: ["permission", "question", "auth"]
     )
 
+    /// Capabilities from explicit lists; ``parse(_:)`` builds them from a reply.
     public init(states: Set<String>, kinds: Set<String>) {
         self.states = states
         self.kinds = kinds
     }
 
-    /// `clear` is not a state and is always accepted.
+    /// Whether the terminal accepts the state. `clear` is not a state and is
+    /// always accepted.
     public func supports(_ state: StatusReport.State) -> Bool {
         state == .clear || states.contains(state.name)
     }
 
+    /// Whether the terminal accepts the blocked `kind`.
     public func supports(_ kind: StatusReport.BlockedKind) -> Bool {
         kinds.contains(kind.rawValue)
     }

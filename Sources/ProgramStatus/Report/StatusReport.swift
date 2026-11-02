@@ -4,6 +4,7 @@
 /// is missing from the record afterwards — so include `app` and `title` in
 /// every report that should carry them.
 public struct StatusReport: Sendable, Equatable {
+    /// What the record is doing, with the `kind` and `progress` its state accepts.
     public let state: State
     /// Record path such as `build/test`; `nil` addresses the root record.
     public let id: String?
@@ -15,6 +16,8 @@ public struct StatusReport: Sendable, Equatable {
     /// One human-readable line: what the record is doing, waiting for, or finished.
     public let message: String?
 
+    /// A report built field by field. The constructors such as
+    /// ``working(_:progress:app:id:title:)`` read better at call sites.
     public init(
         state: State,
         id: String? = nil,

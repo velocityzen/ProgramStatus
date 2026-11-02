@@ -1,5 +1,10 @@
 # ProgramStatus
 
+[![Swift](https://img.shields.io/endpoint?url=https%3A%2F%2Fswiftpackageindex.com%2Fapi%2Fpackages%2Fvelocityzen%2FProgramStatus%2Fbadge%3Ftype%3Dswift-versions)](https://swiftpackageindex.com/velocityzen/ProgramStatus)
+[![Platforms](https://img.shields.io/endpoint?url=https%3A%2F%2Fswiftpackageindex.com%2Fapi%2Fpackages%2Fvelocityzen%2FProgramStatus%2Fbadge%3Ftype%3Dplatforms)](https://swiftpackageindex.com/velocityzen/ProgramStatus)
+[![Documentation](https://img.shields.io/badge/documentation-DocC-purple)](https://swiftpackageindex.com/velocityzen/ProgramStatus/documentation/programstatus)
+[![License](https://img.shields.io/badge/license-MIT-blue)](LICENSE)
+
 Swift encoding of the [Program Status Protocol (OSC 7501)](https://www.superlogical.com/rex/docs/build/program-status), revision 0.4: a terminal escape sequence that tells the terminal whether a program is idle, working, done, blocked on the user, or failed, and why.
 
 The package has a `ProgramStatus` library for CLI apps and a `program-status` command for shell scripts.
@@ -47,6 +52,8 @@ Pure building blocks:
 
 The library only builds the query and parses the reply; reading the reply from the terminal (raw mode, timeout) is up to you.
 
+Full API reference: [swiftpackageindex.com/velocityzen/ProgramStatus/documentation/programstatus](https://swiftpackageindex.com/velocityzen/ProgramStatus/documentation/programstatus)
+
 ## CLI
 
 ```bash
@@ -62,3 +69,7 @@ program-status clear
 ```
 
 Use `--dry-run` to print the sequence with `\e` and `\a` visible, `--bel` to end with BEL instead of ST, and `--to stdout|stderr` to change where it goes. If there is no terminal to write to, it writes nothing and exits 0, so scripts can call it whether or not a terminal is attached.
+
+## License
+
+[MIT](LICENSE)
