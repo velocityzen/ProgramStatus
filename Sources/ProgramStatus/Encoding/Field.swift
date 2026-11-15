@@ -1,4 +1,3 @@
-import FP
 import Foundation
 
 /// One `key=value` pair of a report, before validation.
@@ -24,7 +23,7 @@ extension Field {
             report.state.progress.map(Field.progress),
             report.message.map(Field.message),
         ]
-        return fields.compact()
+        return fields.compactMap { $0 }
     }
 
     /// Validates the value and renders it as `key=value`.

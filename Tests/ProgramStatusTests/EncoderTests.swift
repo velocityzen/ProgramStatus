@@ -1,4 +1,3 @@
-import FP
 import Testing
 
 @testable import ProgramStatus

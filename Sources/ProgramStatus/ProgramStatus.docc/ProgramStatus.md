@@ -59,6 +59,10 @@ the terminal (raw mode, a timeout) is up to the caller.
 
 ## Topics
 
+### Examples
+
+- <doc:CommandLineTool>
+
 ### Reporting
 
 - ``ProgramStatusReporter``

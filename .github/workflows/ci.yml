@@ -47,14 +47,9 @@ jobs:
 
   test-macos:
     name: Run macOS Tests
-    # Package.swift needs macOS 27, which only the xcode-27 image (a public
-    # preview) runs; macos-26 can't launch what it builds.
-    runs-on: xcode-27
+    runs-on: macos-26
     env:
       SWIFT_VERSION: "6.4"
-      # The SDK swift.org's toolchain builds against: Xcode 27.1's, so a change
-      # of the image's default Xcode cannot change it.
-      DEVELOPER_DIR: /Applications/Xcode_27.1.app/Contents/Developer
 
     steps:
       - name: Checkout code
@@ -81,25 +76,15 @@ jobs:
       - name: Run tests
         run: swift test
 
-      # The CLI has no unit tests of its own: check one report end to end, and
-      # that with no terminal attached (as on a runner) it writes nothing and
-      # exits successfully.
-      - name: CLI smoke test
-        run: |
-          bin="$(swift build --show-bin-path)/program-status"
-          expected='\e]7501;state=working:app=photos:msg=U3luY2luZyBwaG90b3M=\e\'
-          test "$("$bin" working "Syncing photos" --app photos --dry-run)" = "$expected"
-          test -z "$("$bin" working "Syncing photos" --app photos < /dev/null)"
-
   test-linux:
     name: Run Linux Tests (Swift ${{ matrix.swift }})
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
       matrix:
-        # 6.4 is the package's swift-tools-version (fp-swift-bracket 3 needs
-        # it), and the compiler the macOS job uses.
-        swift: ["6.4"]
+        # 6.3 is the package's swift-tools-version, the oldest compiler it
+        # claims to support; 6.4 is the compiler the macOS job uses.
+        swift: ["6.3", "6.4"]
     container:
       image: swift:${{ matrix.swift }}
 
@@ -115,10 +100,3 @@ jobs:
 
       - name: Run tests
         run: swift test
-
-      - name: CLI smoke test
-        run: |
-          bin="$(swift build --show-bin-path)/program-status"
-          expected='\e]7501;state=working:app=photos:msg=U3luY2luZyBwaG90b3M=\e\'
-          test "$("$bin" working "Syncing photos" --app photos --dry-run)" = "$expected"
-          test -z "$("$bin" working "Syncing photos" --app photos < /dev/null)"

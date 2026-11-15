@@ -7,12 +7,12 @@
 
 Swift encoding of the [Program Status Protocol (OSC 7501)](https://www.superlogical.com/rex/docs/build/program-status), revision 0.4: a terminal escape sequence that tells the terminal whether a program is idle, working, done, blocked on the user, or failed, and why.
 
-The package has a `ProgramStatus` library for CLI apps and a `program-status` command for shell scripts.
+The package is a single `ProgramStatus` library for command-line apps, with no dependencies.
 
 ## Library
 
 ```swift
-.package(url: "<this repo>", branch: "main"),
+.package(url: "https://github.com/velocityzen/ProgramStatus", from: "0.5.0"),
 // target dependency:
 .product(name: "ProgramStatus", package: "ProgramStatus"),
 ```
@@ -54,21 +54,14 @@ The library only builds the query and parses the reply; reading the reply from t
 
 Full API reference: [swiftpackageindex.com/velocityzen/ProgramStatus/documentation/programstatus](https://swiftpackageindex.com/velocityzen/ProgramStatus/documentation/programstatus)
 
-## CLI
+## Example: a command-line tool
 
-```bash
-swift build -c release
-```
+The documentation has a complete [`program-status` command](https://swiftpackageindex.com/velocityzen/ProgramStatus/documentation/programstatus/commandlinetool) built on the library with Swift Argument Parser, for reporting status from shell scripts:
 
 ```bash
 program-status working "Syncing photos" --app photos
-program-status blocked "Approve deploy?" --kind permission --app deploy
-program-status working "Pushing image" --id us-east --title "US East" --progress 40
 program-status done "Photos synced" --app photos
-program-status clear
 ```
-
-Use `--dry-run` to print the sequence with `\e` and `\a` visible, `--bel` to end with BEL instead of ST, and `--to stdout|stderr` to change where it goes. If there is no terminal to write to, it writes nothing and exits 0, so scripts can call it whether or not a terminal is attached.
 
 ## License
 

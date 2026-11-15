@@ -1,5 +1,3 @@
-import FP
-import FPBracket
 import Foundation
 
 #if canImport(Darwin)
@@ -31,20 +29,14 @@ extension Destination {
 }
 
 extension Destination {
-    static func writeToTerminal(_ sequence: String) -> Result<Void, ProgramStatusError> {
-        let withTerminal = openTerminal()
-        return withTerminal { write(sequence, to: $0) }
-    }
-
     /// Opens `/dev/tty` for one write and closes it afterwards. Opening fails
     /// when the process has no controlling terminal (CI, cron, daemons).
-    static func openTerminal() -> Bracket<FileHandle, ProgramStatusError> {
-        Bracket(
-            acquire: {
-                Result.fromOptional(FileHandle(forWritingAtPath: "/dev/tty"), error: .noTerminal)
-            },
-            dispose: close
-        )
+    static func writeToTerminal(_ sequence: String) -> Result<Void, ProgramStatusError> {
+        guard let terminal = FileHandle(forWritingAtPath: "/dev/tty") else {
+            return .failure(.noTerminal)
+        }
+        defer { try? terminal.close() }
+        return write(sequence, to: terminal)
     }
 
     static func requireTerminal(_ handle: FileHandle) -> Result<FileHandle, ProgramStatusError> {
@@ -56,11 +48,6 @@ extension Destination {
         to handle: FileHandle
     ) -> Result<Void, ProgramStatusError> {
         Result { try handle.write(contentsOf: Data(sequence.utf8)) }
-            .mapError { .writeFailed($0.localizedDescription) }
-    }
-
-    static func close(_ handle: FileHandle) -> Result<Void, ProgramStatusError> {
-        Result { try handle.close() }
             .mapError { .writeFailed($0.localizedDescription) }
     }
 }

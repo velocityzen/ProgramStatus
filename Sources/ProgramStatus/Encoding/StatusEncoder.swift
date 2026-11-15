@@ -1,5 +1,3 @@
-import FP
-
 /// Renders reports and the feature detection query as OSC 7501 sequences.
 public enum StatusEncoder {
     /// `ESC ] 7501 ;`
@@ -13,10 +11,14 @@ public enum StatusEncoder {
         _ report: StatusReport,
         terminator: Terminator = .st
     ) -> Result<String, ProgramStatusError> {
-        Field.fields(of: report)
-            .traverse { $0.encoded() }
-            .map { $0.joined(separator: ":") }
-            .map { frame($0, terminator: terminator) }
+        var pairs: [String] = []
+        for field in Field.fields(of: report) {
+            switch field.encoded() {
+                case .success(let pair): pairs.append(pair)
+                case .failure(let error): return .failure(error)
+            }
+        }
+        return .success(frame(pairs.joined(separator: ":"), terminator: terminator))
     }
 
     /// The feature detection query, `OSC 7501 ; ? ST`. Read the reply with

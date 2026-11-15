@@ -1,4 +1,3 @@
-import FP
 import Foundation
 
 extension Capabilities {
@@ -20,7 +19,8 @@ extension Capabilities {
 extension Capabilities {
     /// The text between `OSC 7501 ;` and the first ST or BEL after it.
     static func body(of reply: String) -> Result<Substring, ProgramStatusError> {
-        Result.fromOptional(afterIntroducer(reply).flatMap(beforeTerminator), error: .invalidReply)
+        afterIntroducer(reply).flatMap(beforeTerminator).map(Result.success)
+            ?? .failure(.invalidReply)
     }
 
     static func afterIntroducer(_ reply: String) -> Substring? {

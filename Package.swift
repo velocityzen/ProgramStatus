@@ -1,42 +1,18 @@
-// swift-tools-version: 6.4
+// swift-tools-version: 6.3
 import PackageDescription
 
 let package = Package(
     name: "ProgramStatus",
-    platforms: [.macOS(.v27), .iOS(.v27), .tvOS(.v27), .watchOS(.v27), .visionOS(.v27)],
+    platforms: [.macOS(.v13), .iOS(.v16), .tvOS(.v16), .watchOS(.v9), .visionOS(.v1)],
     products: [
-        .library(name: "ProgramStatus", targets: ["ProgramStatus"]),
-        .executable(name: "program-status", targets: ["program-status"]),
-    ],
-    dependencies: [
-        .package(url: "https://github.com/apple/swift-argument-parser", from: "1.8.2"),
-        .package(url: "https://github.com/velocityzen/fp-swift", from: "4.4.2"),
-        .package(url: "https://github.com/velocityzen/fp-swift-bracket", from: "3.0.0"),
+        .library(name: "ProgramStatus", targets: ["ProgramStatus"])
     ],
     targets: [
         // The reusable library — no @main, pure encoding plus a thin output seam.
-        .target(
-            name: "ProgramStatus",
-            dependencies: [
-                .product(name: "FP", package: "fp-swift"),
-                .product(name: "FPBracket", package: "fp-swift-bracket"),
-            ]
-        ),
-        // The CLI front-end — parses args, builds a report, sends it.
-        .executableTarget(
-            name: "program-status",
-            dependencies: [
-                "ProgramStatus",
-                .product(name: "ArgumentParser", package: "swift-argument-parser"),
-                .product(name: "FP", package: "fp-swift"),
-            ]
-        ),
+        .target(name: "ProgramStatus"),
         .testTarget(
             name: "ProgramStatusTests",
-            dependencies: [
-                "ProgramStatus",
-                .product(name: "FP", package: "fp-swift"),
-            ]
+            dependencies: ["ProgramStatus"]
         ),
     ]
 )
