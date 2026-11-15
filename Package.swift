@@ -1,17 +1,17 @@
-// swift-tools-version: 6.3
+// swift-tools-version: 6.4
 import PackageDescription
 
 let package = Package(
     name: "ProgramStatus",
-    platforms: [.macOS(.v26), .iOS(.v26), .tvOS(.v26), .watchOS(.v26), .visionOS(.v26)],
+    platforms: [.macOS(.v27), .iOS(.v27), .tvOS(.v27), .watchOS(.v27), .visionOS(.v27)],
     products: [
         .library(name: "ProgramStatus", targets: ["ProgramStatus"]),
         .executable(name: "program-status", targets: ["program-status"]),
     ],
     dependencies: [
         .package(url: "https://github.com/apple/swift-argument-parser", from: "1.8.2"),
-        .package(url: "https://github.com/velocityzen/fp-swift", from: "4.2.1"),
-        .package(url: "https://github.com/velocityzen/fp-swift-bracket", from: "2.1.0"),
+        .package(url: "https://github.com/velocityzen/fp-swift", from: "4.4.2"),
+        .package(url: "https://github.com/velocityzen/fp-swift-bracket", from: "3.0.0"),
     ],
     targets: [
         // The reusable library — no @main, pure encoding plus a thin output seam.
