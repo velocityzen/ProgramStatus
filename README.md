@@ -12,7 +12,7 @@ The package is a single `ProgramStatus` library for command-line apps, with no d
 ## Library
 
 ```swift
-.package(url: "https://github.com/velocityzen/ProgramStatus", from: "0.5.0"),
+.package(url: "https://github.com/velocityzen/ProgramStatus", from: "0.4.0"),
 // target dependency:
 .product(name: "ProgramStatus", package: "ProgramStatus"),
 ```
@@ -40,13 +40,13 @@ status.send(.clear(id: "us-east"))
 
 Pure building blocks:
 
-| Function | Returns |
-|---|---|
-| `StatusEncoder.encode(_:terminator:)` | `Result<String, ProgramStatusError>` with the full sequence |
-| `StatusEncoder.query(terminator:)` | the feature detection query `OSC 7501 ; ? ST` |
-| `Capabilities.parse(_:)` | the terminal's reply as `Result<Capabilities, ProgramStatusError>` |
-| `StatusText.singleLine(_:)` | text with control characters collapsed, for messages such as `error.localizedDescription` |
-| `Destination.write(_:)` | writes a sequence to `.terminal`, `.standardOutput`, `.standardError` or `.fileHandle(_:)` |
+| Function                              | Returns                                                                                    |
+| ------------------------------------- | ------------------------------------------------------------------------------------------ |
+| `StatusEncoder.encode(_:terminator:)` | `Result<String, ProgramStatusError>` with the full sequence                                |
+| `StatusEncoder.query(terminator:)`    | the feature detection query `OSC 7501 ; ? ST`                                              |
+| `Capabilities.parse(_:)`              | the terminal's reply as `Result<Capabilities, ProgramStatusError>`                         |
+| `StatusText.singleLine(_:)`           | text with control characters collapsed, for messages such as `error.localizedDescription`  |
+| `Destination.write(_:)`               | writes a sequence to `.terminal`, `.standardOutput`, `.standardError` or `.fileHandle(_:)` |
 
 `encode` checks every value against the spec (id grammar, `app` charset, progress 0–100, no control characters, byte limits) and fails on the first invalid one. `.standardOutput` and `.standardError` only write while they are a terminal, so pipes and log files never get escape sequences.
 
